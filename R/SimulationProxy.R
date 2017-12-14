@@ -25,15 +25,19 @@ SimulationProxy <- function(id,
 }
 
 
+# url ---------------------------------------------------------------------
+
 app_url.SimulationProxy     <- function(sim)
   paste0("http://", sim$shiny_server,":", sim$shiny_port, "/app/", sim$app)
 
 frame_url.SimulationProxy   <- function(sim, frame)
   paste0("http://", sim$shiny_server,":", sim$shiny_port, "/", frame, "/")
 
+# simulationLs ------------------------------------------------------------
+
 simulationLs_get.SimulationProxy <- function(sim, containerLs) {
   mapper <- function(container, sim) {
-    sim_1 <- Simulation(id = sim$id,
+    sim_out <- Simulation(id = sim$id,
                         app = container$name,
                         concurrency = "1",
                         srv_conf = sim$srv_conf,
@@ -41,6 +45,13 @@ simulationLs_get.SimulationProxy <- function(sim, containerLs) {
                         time_monitor = sim$time_monitor,
                         shiny_server = sim$shiny_server,
                         shiny_port   = as.character(container$port))
+    sim_out
   }
   lapply(containerLs, mapper, sim = sim)
 }
+
+simulationLs_run.SimulationProxy <- function(sim, containerLs) {
+  simulationLs <- simulationLs_get.SimulationProxy(sim, containerLs)
+  lapply(simulationLs, simulate)
+}
+

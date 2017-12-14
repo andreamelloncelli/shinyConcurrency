@@ -49,6 +49,8 @@ test_that("frame_url works", {
                , expected = "http://shiny-example.com:8080/vigorous_einstein/")
 })
 
+# test_simulationLs -------------------------------------------------------
+
 test_that("simulationLs_get.SimulationProxy works", {
   simulationLs <- simulationLs_get.SimulationProxy(simP_1, containerLs)
 
