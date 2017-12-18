@@ -23,6 +23,15 @@ SimProxyOutLs <- function(SimOutLs) {
 
 }
 
+# listSimOutFiles ---------------------------------------------------------
+
+listSimOutFiles.SimProxyOutLs <- function(this) {
+  # list(c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt")
+  #      , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt"))
+  list_files_from <- function(simOut) {list.files(simOut$outdir)}
+  fileList <- map(this$simOutLs, list_files_from  )
+}
+
 # SimOut ------------------------------------------------------------------
 
 ToSimOut.SimProxyOutLs <- function(this) {
