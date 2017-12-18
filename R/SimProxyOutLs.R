@@ -8,7 +8,8 @@
 #'
 #' @examples
 SimProxyOutLs <- function(SimOutLs) {
-  this <- SimOutLs
+  this <- list(simOutLs = SimOutLs
+               , finalSimOut = NULL)
   class_name <- "SimProxyOutLs"
   class(this) <- class_name
   this
@@ -16,4 +17,12 @@ SimProxyOutLs <- function(SimOutLs) {
 
 # SimOut ------------------------------------------------------------------
 
-ToSimOut.SimProxyOutLs <- function() {}
+ToSimOut.SimProxyOutLs <- function(this) {
+  firstSim <- this$simOutLs[[1]]
+
+  simOut <- SimOut(poll         = NA
+                   , outdir     = ""
+                   , parameters = NA
+                   , command    = firstSim$command)
+  simOut
+}

@@ -16,11 +16,18 @@ SimOut <- function(poll       ,
                    outdir     ,
                    parameters ,
                    command    ) {
-  this <- as.list(match.call())
-  class_name <- this[[1]]
-  this[[1]]  <- NULL # remove the function name
+  this <- list(poll         = poll
+               , outdir     = outdir
+               , parameters = parameters
+               , command    = command)
+  class_name <- "SimOut"
   class(this) <- class_name
   this
+  # this <- as.list(match.call())
+  # class_name <- this[[1]]
+  # this[[1]]  <- NULL # remove the function name
+  # class(this) <- class_name
+  # this
 }
 
 report_gen <- function(sim) {
