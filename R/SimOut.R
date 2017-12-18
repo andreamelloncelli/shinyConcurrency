@@ -1,3 +1,17 @@
+#' SimOut
+#'
+#' SimOut contains information about the output of a normal simulation
+#' (normal: made with shinyloadtest on the Shiny app directly)
+#'
+#' @param poll
+#' @param outdir
+#' @param parameters
+#' @param command
+#'
+#' @return SimOut object
+#' @export
+#'
+#' @examples
 SimOut <- function(poll       ,
                    outdir     ,
                    parameters ,

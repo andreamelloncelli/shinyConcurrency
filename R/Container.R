@@ -1,3 +1,5 @@
+# This class keeps information about a running docker container.
+
 Container <- function(name       ,
                       hash       ,
                       port       ) {
