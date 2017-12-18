@@ -15,6 +15,14 @@ SimProxyOutLs <- function(SimOutLs) {
   this
 }
 
+.getProxyOutFilename <- function(filename) {
+
+}
+
+.buildFinalSimOutLs <- function(simOutLs) {
+
+}
+
 # SimOut ------------------------------------------------------------------
 
 ToSimOut.SimProxyOutLs <- function(this) {
