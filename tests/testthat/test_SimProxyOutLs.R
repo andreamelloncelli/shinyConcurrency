@@ -8,33 +8,33 @@ simOut1 <- SimOut(poll       = NA,
                   outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_001usr_4thr_100-090-40_2min_net/1",
                   parameters = NA,
                   command    = "ls a b c")
-fileList1 <- paste0(sep = "/"
-                    , wd
-                    , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"))
-
+fileList1 <- paste(sep = "/"
+                   , simOut1$outdir
+                   , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"))
 
 simOut2 <- SimOut(poll       = NA,
                   outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_1usr_100-090-40_net_180sec/2",
                   parameters = NA,
                   command    = "ls a2 b2 c2")
-fileList2 <- paste0(sep = "/"
-                    , wd
-                    , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"
-                        , "profile_0_4.txt", "profile_0_5.txt", "profile_0_6.txt"))
+fileList2 <- paste(sep = "/"
+                   , simOut2$outdir
+                   , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"
+                       , "profile_0_4.txt", "profile_0_5.txt", "profile_0_6.txt"))
 
 simOutLs <- list(simOut1, simOut2)
-simOutFlatLs <- flatten(simOutLs)
+
 fileListToParse <- list(fileList1, fileList2)
+fileListToParseFlat <- flatten(fileListToParse)
 
 simOutResult <- SimOut(poll       = NA,
-                       outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_001usr_4thr_100-090-40_2min_net/proxy/",
+                       outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_001usr_4thr_100-090-40_2min_net/proxy",
                        parameters = NA,
                        command    = "ls a2 b2 c2")
-fileListResult <- paste0(sep = "/"
-                         , wd
-                         , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"
-                             , "profile_1_0.txt", "profile_1_1.txt", "profile_1_2.txt", "profile_1_3.txt"
-                             , "profile_1_4.txt", "profile_1_5.txt", "profile_1_6.txt"))
+fileListResult <- paste(sep = "/"
+                        , simOutResult$outdir
+                        , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"
+                            , "profile_1_0.txt", "profile_1_1.txt", "profile_1_2.txt", "profile_1_3.txt"
+                            , "profile_1_4.txt", "profile_1_5.txt", "profile_1_6.txt"))
 
 # mock --------------------------------------------------------------------
 
@@ -69,19 +69,24 @@ test_that("listSimOutFiles return the right list", {
   simProxyOutLs <- SimProxyOutLs(simOutLs)
 
   with_mock(
-    `base::list.files` = fake_list.files,
-    files <- listSimOutFiles.SimProxyOutLs(simProxyOutLs)
+    `base::list.files` = fake_list.files
+    , files <- listSimOutFiles.SimProxyOutLs(simProxyOutLs)
   )
   expect_equal(files
                , fileListToParse)
 })
-# test_that("after listSimOutFiles complete path", {
-#   simProxyOutLs <- SimProxyOutLs(simOutLs)
-#
-#   expect_equal(fileListToParse
-#                , fileListResult)
-#
-# })
+
+test_that("moveFiles satisfy mocks: not really a test, only documentation.", {
+  simProxyOutLs <- SimProxyOutLs(simOutLs)
+  simFileLs     <- map(fileListToParseFlat, SimFile)
+
+  with_mock(
+    `base::list.files`    = fake_list.files
+    , `base::file.rename` = fake_file.rename
+    , files <- moveFiles.SimProxyOutLs(simProxyOutLs)
+  )
+
+})
 
 
 # toSimOut ----------------------------------------------------------------
