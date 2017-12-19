@@ -5,7 +5,8 @@ Simulation <- function(id,
                        duration,
                        time_monitor,
                        shiny_server,
-                       shiny_port  ) {
+                       shiny_port,
+                       outpath      = "~/shiny-concurrency/shiny-server-pro/4_json") {
   this <- list(id           = id,
                app          = app,
                concurrency  = concurrency,
@@ -18,7 +19,7 @@ Simulation <- function(id,
                                      "_", concurrency, "usr_",
                                      srv_conf, "_", duration),
                # if (!dir.exists(outdir)) dir.create(outdir)
-               outpath      = "~/shiny-concurrency/shiny-server-pro/4_json"
+               outpath      = outpath
   )
   class(this) <- "Simulation"
   this
