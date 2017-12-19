@@ -59,25 +59,18 @@ test_that("listSimOutFiles.SimProxyOutLs return the right list", {
 
   with_mock(
     `base::list.files` = fake_list.files,
-    expect_equal(listSimOutFiles.SimProxyOutLs(simProxyOutLs)
-                 , list(fileList1, fileList2))
+    files <- listSimOutFiles.SimProxyOutLs(simProxyOutLs)
   )
+  expect_equal(files
+               , list(fileList1, fileList2))
 })
-# test_that(".getProxyOutFilename return the right pattern", {
+# test_that("listSimProxyOutFiles.SimProxyOutLs return the right list", {
 #   simProxyOutLs <- SimProxyOutLs(simOutLs)
-#   local({
-#     list.files <- function(dir) {
-#       "aaa"
-#     }
-#     list.files(simProxyOutLs$simOutLs[[1]]$outdir)
-#   })
-#   list.files(simProxyOutLs$simOutLs[[1]]$outdir)
-#   expect
-# })
-# test_that(".buildFinalSimOutLs(simOutLs) works", {
-#   simOutFinal.buildFinalSimOutLs(simOutLs)
+#   files <- list(fileList1, fileList2)
 #
-#   expect
+#   expect_equal(files
+#                , fileListResult)
+#
 # })
 
 
