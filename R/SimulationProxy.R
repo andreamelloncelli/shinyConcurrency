@@ -47,7 +47,8 @@ simulationLs_get.SimulationProxy <- function(sim, containerLs) {
                         time_monitor = sim$time_monitor,
                         shiny_server = sim$shiny_server,
                         shiny_port   = as.character(container$port),
-                        outpath      = paste0(sim$outpath, "/", as.character(id_container)))
+                        outdir       = as.character(id_container),
+                        outpath      = sim$outpath)
     sim_out
   }
   lapply(1:length(containerLs), mapper, containerLs = containerLs, sim = sim)

@@ -6,6 +6,9 @@ Simulation <- function(id,
                        time_monitor,
                        shiny_server,
                        shiny_port,
+                       outdir       = paste0("output_", id, "_", app,
+                                             "_", concurrency, "usr_",
+                                             srv_conf, "_", duration),
                        outpath      = "~/shiny-concurrency/shiny-server-pro/4_json") {
   this <- list(id           = id,
                app          = app,
@@ -15,9 +18,7 @@ Simulation <- function(id,
                time_monitor = time_monitor,
                shiny_server = shiny_server,
                shiny_port   = shiny_port,
-               outdir       = paste0("output_", id, "_", app,
-                                     "_", concurrency, "usr_",
-                                     srv_conf, "_", duration),
+               outdir       = outdir,
                # if (!dir.exists(outdir)) dir.create(outdir)
                outpath      = outpath
   )

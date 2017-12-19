@@ -34,7 +34,8 @@ sim_1 <- Simulation(id = "70",
                     time_monitor = 30,
                     shiny_server = shiny_proxy,
                     shiny_port   = as.character(port_1),
-                    outpath      = "~/shiny-concurrency/shiny-server-pro/4_json/1")
+                    outdir       = "1",
+                    outpath      = "~/shiny-concurrency/shiny-server-pro/4_json")
 sim_2 <- Simulation(id = "70",
                     app = "tidy_birkoff",
                     concurrency = "1",
@@ -43,7 +44,8 @@ sim_2 <- Simulation(id = "70",
                     time_monitor = 30,
                     shiny_server = shiny_proxy,
                     shiny_port   = as.character(port_2),
-                    outpath      = "~/shiny-concurrency/shiny-server-pro/4_json/2")
+                    outdir       = "2",
+                    outpath      = "~/shiny-concurrency/shiny-server-pro/4_json")
 
 # tests -------------------------------------------------------------------
 
