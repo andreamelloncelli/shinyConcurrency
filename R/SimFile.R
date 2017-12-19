@@ -13,7 +13,6 @@ SimFile <- function(inFile) {
 # outFile -----------------------------------------------------------------
 
 getOutFile.SimFile <- function(this) {
-
   paste0(this$path, "/proxy/profile_", this$id_thread, "_", this$id_rep, ".txt")
 }
 
@@ -24,7 +23,6 @@ getOutFile.SimFile <- function(this) {
                   , replacement = "\\3"
                   , x = file)
   if (id_fake != "0") stop("id_fake != '0'")
-
 
   list(path        = gsub(pattern
                           , replacement = "\\1"
@@ -44,6 +42,5 @@ getOutFile.SimFile <- function(this) {
 moveFile.SimFile <- function(this) {
   file.rename(from = this$old_path
               , to = getOutFile.SimFile(this))
-
 }
 
