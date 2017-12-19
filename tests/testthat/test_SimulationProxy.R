@@ -12,7 +12,8 @@ simP_1 <- SimulationProxy(id = "70",
                           duration = "60sec",
                           time_monitor = 30,
                           shiny_server = shiny_proxy,
-                          shiny_port   = "8080")
+                          shiny_port   = "8080",
+                          outpath      = "~/shiny-concurrency/shiny-server-pro/4_json")
 
 appLs <- list("vigorous_einstein", "tidy_birkoff")
 port_1 <- 4445L
@@ -32,7 +33,8 @@ sim_1 <- Simulation(id = "70",
                     duration = "60sec",
                     time_monitor = 30,
                     shiny_server = shiny_proxy,
-                    shiny_port   = as.character(port_1))
+                    shiny_port   = as.character(port_1),
+                    outpath      = "~/shiny-concurrency/shiny-server-pro/4_json/1")
 sim_2 <- Simulation(id = "70",
                     app = "tidy_birkoff",
                     concurrency = "1",
@@ -40,7 +42,8 @@ sim_2 <- Simulation(id = "70",
                     duration = "60sec",
                     time_monitor = 30,
                     shiny_server = shiny_proxy,
-                    shiny_port   = as.character(port_2))
+                    shiny_port   = as.character(port_2),
+                    outpath      = "~/shiny-concurrency/shiny-server-pro/4_json/2")
 
 # tests -------------------------------------------------------------------
 

@@ -37,7 +37,8 @@ frame_url.SimulationProxy   <- function(sim, frame)
 # simulationLs ------------------------------------------------------------
 
 simulationLs_get.SimulationProxy <- function(sim, containerLs) {
-  mapper <- function(container, sim) {
+  mapper <- function(id_container, containerLs, sim) {
+    container <- containerLs[[id_container]]
     sim_out <- Simulation(id = sim$id,
                         app = container$name,
                         concurrency = "1",
@@ -45,10 +46,11 @@ simulationLs_get.SimulationProxy <- function(sim, containerLs) {
                         duration = sim$duration,
                         time_monitor = sim$time_monitor,
                         shiny_server = sim$shiny_server,
-                        shiny_port   = as.character(container$port))
+                        shiny_port   = as.character(container$port),
+                        outpath      = paste0(sim$outpath, "/", as.character(id_container)))
     sim_out
   }
-  lapply(containerLs, mapper, sim = sim)
+  lapply(1:length(containerLs), mapper, containerLs = containerLs, sim = sim)
 }
 
 simulationLs_run.SimulationProxy <- function(sim, containerLs) {
