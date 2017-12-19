@@ -8,7 +8,8 @@ simOut1 <- SimOut(poll       = NA,
                   outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_001usr_4thr_100-090-40_2min_net/1",
                   parameters = NA,
                   command    = "ls a b c")
-fileList1 <- paste0(wd
+fileList1 <- paste0(sep = "/"
+                    , wd
                     , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"))
 
 
@@ -16,21 +17,24 @@ simOut2 <- SimOut(poll       = NA,
                   outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_1usr_100-090-40_net_180sec/2",
                   parameters = NA,
                   command    = "ls a2 b2 c2")
-fileList2 <- paste0(wd
+fileList2 <- paste0(sep = "/"
+                    , wd
                     , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"
                         , "profile_0_4.txt", "profile_0_5.txt", "profile_0_6.txt"))
 
 simOutLs <- list(simOut1, simOut2)
+simOutFlatLs <- flatten(simOutLs)
 fileListToParse <- list(fileList1, fileList2)
 
 simOutResult <- SimOut(poll       = NA,
                        outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_001usr_4thr_100-090-40_2min_net/proxy/",
                        parameters = NA,
                        command    = "ls a2 b2 c2")
-fileListResult <- paste(wd
-                        , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"
-                            , "profile_1_0.txt", "profile_1_1.txt", "profile_1_2.txt", "profile_1_3.txt"
-                            , "profile_1_4.txt", "profile_1_5.txt", "profile_1_6.txt"))
+fileListResult <- paste0(sep = "/"
+                         , wd
+                         , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"
+                             , "profile_1_0.txt", "profile_1_1.txt", "profile_1_2.txt", "profile_1_3.txt"
+                             , "profile_1_4.txt", "profile_1_5.txt", "profile_1_6.txt"))
 
 # mock --------------------------------------------------------------------
 
@@ -53,12 +57,14 @@ test_that("SimProxyOutLs build the right object", {
 
   expect_s3_class(simProxyOutLs, "SimProxyOutLs")
 })
+
 test_that("SimProxyOutLs has the original object inside", {
   simProxyOutLs <- SimProxyOutLs(simOutLs)
 
   expect_equal(simProxyOutLs$simOutLs
                , simOutLs)
 })
+
 test_that("listSimOutFiles return the right list", {
   simProxyOutLs <- SimProxyOutLs(simOutLs)
 
@@ -69,14 +75,13 @@ test_that("listSimOutFiles return the right list", {
   expect_equal(files
                , fileListToParse)
 })
-test_that("after listSimOutFiles complete path", {
-  simProxyOutLs <- SimProxyOutLs(simOutLs)
-
-
-  # expect_equal(fileListToParse
-  #              , fileListResult)
-
-})
+# test_that("after listSimOutFiles complete path", {
+#   simProxyOutLs <- SimProxyOutLs(simOutLs)
+#
+#   expect_equal(fileListToParse
+#                , fileListResult)
+#
+# })
 
 
 # toSimOut ----------------------------------------------------------------
