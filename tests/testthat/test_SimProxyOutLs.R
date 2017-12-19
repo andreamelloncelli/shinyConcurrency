@@ -13,7 +13,7 @@ fileList1 <- paste(sep = "/"
                    , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"))
 
 simOut2 <- SimOut(poll       = NA,
-                  outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_1usr_100-090-40_net_180sec/2",
+                  outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_001usr_4thr_100-090-40_2min_net/2",
                   parameters = NA,
                   command    = "ls a2 b2 c2")
 fileList2 <- paste(sep = "/"
@@ -47,7 +47,14 @@ fake_list.files <- function(path, ..., full.names) {
 }
 
 fake_file.rename <- function(from, to) {
-  TRUE
+  class(from)
+  if (all(any(from %in% fileList1
+              , from %in% fileList2)
+          , to %in% fileListResult)) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
 }
 
 # constructor -------------------------------------------------------------
@@ -76,16 +83,15 @@ test_that("listSimOutFiles return the right list", {
                , fileListToParse)
 })
 
-test_that("moveFiles satisfy mocks: not really a test, only documentation.", {
+test_that("moveFiles satisfy mocks", {
   simProxyOutLs <- SimProxyOutLs(simOutLs)
-  simFileLs     <- map(fileListToParseFlat, SimFile)
+  # simFileLs     <- map(fileListToParseFlat, SimFile)
 
   with_mock(
     `base::list.files`    = fake_list.files
     , `base::file.rename` = fake_file.rename
     , files <- moveFiles.SimProxyOutLs(simProxyOutLs)
   )
-
 })
 
 
