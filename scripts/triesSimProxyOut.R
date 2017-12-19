@@ -19,3 +19,5 @@ proxyOutLs <- SimProxyOutLs(simOutLs)
 
 print(listSimOutFiles.SimProxyOutLs(proxyOutLs))
 moveFiles.SimProxyOutLs(proxyOutLs)
+system("ls -l out")
+system("ls -l out/*")
