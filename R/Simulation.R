@@ -39,7 +39,7 @@ simulate_cmd <- function(p) {
            "mkdir -p ", p$outdir, ";\n ",
            "~/shiny-concurrency/proxyrec playback ",
            "--target '", app_url(p), "/' ",
-           "--outdir ", p$outdir,
+           "--outdir ./", p$outdir,
            " --concurrency ", p$concurrency, "  --duration '", p$duration, "' ",
            p$rectest, " &")
 }

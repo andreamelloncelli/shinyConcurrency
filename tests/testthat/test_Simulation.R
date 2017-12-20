@@ -14,7 +14,7 @@ sim_1_cmd <- paste0("cd ~/shiny-concurrency/shiny-server-pro/4_json;\n",
                     " mkdir -p output_30_shinyTest_1usr_100-090-40_net_180sec;\n",
                     " ~/shiny-concurrency/proxyrec playback",
                     " --target 'http://ec2-52-201-221-45.compute-1.amazonaws.com:3838/shinyTest/'",
-                    " --outdir output_30_shinyTest_1usr_100-090-40_net_180sec --concurrency 1 ",
+                    " --outdir ./output_30_shinyTest_1usr_100-090-40_net_180sec --concurrency 1 ",
                     " --duration '180sec' ../../tests/5_json/app-recording.txt &")
 sim_1_outdir <- "~/shiny-concurrency/shiny-server-pro/4_json/output_30_shinyTest_1usr_100-090-40_net_180sec"
 
