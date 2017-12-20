@@ -26,31 +26,38 @@ browser_get <- function(id, port = 4445L) {
 	mybrowser
 }
 container_get <- function(mybrowser, proxy_server = "ec2-107-23-143-101.compute-1.amazonaws.com", times = 1) {
-	mybrowser$open()
 	str <- character()
 	for (i in 1:times) {
-	  mybrowser$deleteAllCookies()
+	  mybrowser$open()
+	  # mybrowser$deleteAllCookies()
 	  mybrowser$navigate(paste0("http://", proxy_server, ":8080/app/test_app"))
 	  # mybrowser$getPageSource()[[1]] %>%
 	  # 	htmlParse
-	  Sys.sleep(10) #3
+	  Sys.sleep(3) #3
 	  buf <- mybrowser$getPageSource()[[1]] %>%
 	    strsplit(split = "\n") %>%
 	    .[[1]] %>%
 	    .[81]
 	  str <- c(str, buf)
+	  mybrowser$close()
 	}
-	mybrowser$close()
 	str
 }
 
-url_get <- function(id, wait_container = 5, proxy_server = "ec2-107-23-143-101.compute-1.amazonaws.com", times = 1) {
+url_get <- function(id, wait_container = 5, proxy_server = "ec2-107-23-143-101.compute-1.amazonaws.com", times = 1, containerLs = NULL) {
   port <- 4445L + id
-  docker_container <- docker_run(port = port)
-  Sys.sleep(wait_container)
+  if (is.null(containerLs)) {
+    docker_container <- docker_run(port = port)
+    Sys.sleep(wait_container)
+  } else {
+    docker_container <- containerLs[[id]]
+  }
+  message("Container with id=", id, " on port=", port, " is considered ready.")
   mybrowser <- browser_get(id, port = docker_container$port)
   web_route <- container_get(mybrowser, proxy_server = proxy_server, times = times)
-  docker_kill(docker_container)
+  if (is.null(containerLs)) {
+    docker_kill(docker_container)
+  }
   web_route
 }
 
@@ -102,14 +109,24 @@ library(parallel)
 # t <- system.time(containers <- mclapply(browsers, container_get))
 # t
 
-n_cores <- 20
+n_cores <- 40
 times <- 1
 docker_kill_all()
-t2 <- system.time(containers_2 <- mclapply(mc.cores = n_cores, 1:n_cores, url_get, wait_container = 10, proxy_server = proxy_server, times = times))
+t2 <- system.time(containers_2 <- mclapply(mc.cores = n_cores, 1:n_cores, url_get, wait_container = 30, proxy_server = proxy_server, times = times))
 (nam <- containerNames_get(containers_2))
 t2
 containerStrings <- nam[!is.na(nam)]
 # other -------------------------------------------------------------------
 
-
+n_cores <- 10
+n_iframes <- 200
+t3 <- system.time(dockers_1 <- mclapply(mc.cores = n_cores, 4445L+1:n_iframes, docker_run))
+t3
+t2 <- system.time(containers_3 <- mclapply(mc.cores = n_cores, 1:n_iframes, url_get, wait_container = 1,
+                                           proxy_server = proxy_server, times = times, containerLs = dockers_1))
+t2 <- system.time(containers_3 <- lapply(1:n_iframes, url_get, wait_container = 1,
+                                         proxy_server = proxy_server, times = times, containerLs = dockers_1))
+map(dockers_1, docker_kill)
+t2
+(nam <- containerNames_get(containers_3))
 
