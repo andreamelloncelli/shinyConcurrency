@@ -30,15 +30,20 @@ Simulation <- function(id,
 
 # functions ---------------------------------------------------------------
 
-app_url     <- function(sim)
-  paste0("http://", sim$shiny_server,":", sim$shiny_port, "/", sim$app)
-
+app_url     <- function(sim) {
+  if (! sim$app == "") {
+    sim_app_slash <- paste0(sim$app, "/")
+  } else {
+    sim_app_slash <- ""
+  }
+  paste0("http://", sim$shiny_server,":", sim$shiny_port, "/", sim_app_slash)
+}
 simulate_cmd <- function(p) {
     paste0("cd ", p$outpath, ";\n ",
            "rm -f ", p$outdir, "/*;\n ",
            "mkdir -p ", p$outdir, ";\n ",
            "~/shiny-concurrency/proxyrec playback ",
-           "--target '", app_url(p), "/' ",
+           "--target '", app_url(p), "' ",
            "--outdir ./", p$outdir,
            " --concurrency ", p$concurrency, "  --duration '", p$duration, "' ",
            p$rectest, " &")
