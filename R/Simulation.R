@@ -9,7 +9,8 @@ Simulation <- function(id,
                        outdir       = paste0("output_", id, "_", app,
                                              "_", concurrency, "usr_",
                                              srv_conf, "_", duration),
-                       outpath      = "~/shiny-concurrency/shiny-server-pro/4_json") {
+                       outpath      = "~/shiny-concurrency/shiny-server-pro/4_json",
+                       rectest      = "../../tests/4_json/app-recording.txt") {
   this <- list(id           = id,
                app          = app,
                concurrency  = concurrency,
@@ -20,7 +21,8 @@ Simulation <- function(id,
                shiny_port   = shiny_port,
                outdir       = outdir,
                # if (!dir.exists(outdir)) dir.create(outdir)
-               outpath      = outpath
+               outpath      = outpath,
+               rectest      = rectest
   )
   class(this) <- "Simulation"
   this
@@ -39,7 +41,7 @@ simulate_cmd <- function(p) {
            "--target '", app_url(p), "/' ",
            "--outdir ", p$outdir,
            " --concurrency ", p$concurrency, "  --duration '", p$duration, "' ",
-           "../../tests/4_json/app-recording.txt &")
+           p$rectest, " &")
 }
 
 simulate_out <- function(sim) {

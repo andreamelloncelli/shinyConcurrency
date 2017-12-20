@@ -7,14 +7,15 @@ sim_1 <- Simulation(id = "30",
                   duration = "180sec",
                   time_monitor = 30,
                   shiny_server = "ec2-52-201-221-45.compute-1.amazonaws.com",
-                  shiny_port   = "3838")
+                  shiny_port   = "3838",
+                  rectest      = "../../tests/5_json/app-recording.txt")
 sim_1_cmd <- paste0("cd ~/shiny-concurrency/shiny-server-pro/4_json;\n",
                     " rm -f output_30_shinyTest_1usr_100-090-40_net_180sec/*;\n",
                     " mkdir -p output_30_shinyTest_1usr_100-090-40_net_180sec;\n",
                     " ~/shiny-concurrency/proxyrec playback",
                     " --target 'http://ec2-52-201-221-45.compute-1.amazonaws.com:3838/shinyTest/'",
                     " --outdir output_30_shinyTest_1usr_100-090-40_net_180sec --concurrency 1 ",
-                    " --duration '180sec' ../../tests/4_json/app-recording.txt &")
+                    " --duration '180sec' ../../tests/5_json/app-recording.txt &")
 sim_1_outdir <- "~/shiny-concurrency/shiny-server-pro/4_json/output_30_shinyTest_1usr_100-090-40_net_180sec"
 
 

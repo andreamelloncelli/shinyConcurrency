@@ -6,7 +6,8 @@ SimulationProxy <- function(id,
                             time_monitor,
                             shiny_server,
                             shiny_port,
-                            outpath      = "~/shiny-concurrency/shiny-server-pro/4_json") {
+                            outpath      = "~/shiny-concurrency/shiny-server-pro/4_json",
+                            rectest      = "../../tests/4_json/app-recording.txt") {
   this <- list(id           = id,
                app          = app,
                concurrency  = concurrency,
@@ -19,7 +20,8 @@ SimulationProxy <- function(id,
                                      "_", concurrency, "usr_",
                                      srv_conf, "_", duration),
                # if (!dir.exists(outdir)) dir.create(outdir)
-               outpath      = outpath
+               outpath      = outpath,
+               rectest      = rectest
   )
   class(this) <- "SimulationProxy"
   this
@@ -48,7 +50,8 @@ simulationLs_get.SimulationProxy <- function(sim, containerLs) {
                         shiny_server = sim$shiny_server,
                         shiny_port   = as.character(container$port),
                         outdir       = as.character(id_container),
-                        outpath      = sim$outpath)
+                        outpath      = sim$outpath,
+                        rectest      = sim$rectest)
     sim_out
   }
   lapply(1:length(containerLs), mapper, containerLs = containerLs, sim = sim)
