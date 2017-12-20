@@ -29,7 +29,7 @@ fileListToParseFlat <- flatten(fileListToParse)
 simOutResult <- SimOut(poll       = NA,
                        outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_001usr_4thr_100-090-40_2min_net/proxy",
                        parameters = NA,
-                       command    = "ls a2 b2 c2")
+                       command    = "ls a b c")
 fileListResult <- paste(sep = "/"
                         , simOutResult$outdir
                         , c("profile_0_0.txt", "profile_0_1.txt", "profile_0_2.txt", "profile_0_3.txt"
@@ -80,7 +80,7 @@ test_that("listSimOutFiles return the right list", {
     , files <- listSimOutFiles.SimProxyOutLs(simProxyOutLs)
   )
   expect_equal(files
-               , fileListToParse)
+               , fileListToParseFlat)
 })
 
 test_that("moveFiles satisfy mocks", {
@@ -111,7 +111,7 @@ test_that("toSimOut produce a right SimOut", {
   simOut <- ToSimOut.SimProxyOutLs(simProxyOutLs)
 
   expect_equal(simOut$poll, NA)
-  # expect_equal(simOut$command, simOut1$command)
+  expect_equal(simOut$outdir, simOutResult$outdir)
   expect_equal(simOut$parameters, NA)
-  expect_equal(simOut$command, simOut1$command)
+  expect_equal(simOut$command, simOutResult$command)
 })

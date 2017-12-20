@@ -28,25 +28,29 @@ SimProxyOutLs <- function(SimOutLs) {
 listSimOutFiles.SimProxyOutLs <- function(this) {
   list_files_from <- function(simOut) {list.files(simOut$outdir, full.names = TRUE)}
   fileList <- map(this$simOutLs, list_files_from  )
-  fileList
+  flatten(fileList)
 }
 
 ## not tested
 moveFiles.SimProxyOutLs <- function(this) {
-  fileLs <- listSimOutFiles.SimProxyOutLs(this) %>% flatten
+  fileLs <- listSimOutFiles.SimProxyOutLs(this)
   simFileLs <- map(.x = fileLs
                    , .f = SimFile)
   map(.x = simFileLs
       , .f = moveFile.SimFile)
 }
 
-# SimOut ------------------------------------------------------------------
+# toSimOut ------------------------------------------------------------------
 
 ToSimOut.SimProxyOutLs <- function(this) {
   firstSim <- this$simOutLs[[1]]
 
+  outdir = gsub(pattern = "/1$"
+                , replacement = "/proxy"
+                , x = firstSim$outdir)
+
   simOut <- SimOut(poll         = NA
-                   , outdir     = ""
+                   , outdir     = outdir
                    , parameters = NA
                    , command    = firstSim$command)
   simOut
