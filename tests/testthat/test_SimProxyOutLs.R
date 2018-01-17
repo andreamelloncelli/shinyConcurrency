@@ -24,7 +24,7 @@ fileList2 <- paste(sep = "/"
 simOutLs <- list(simOut1, simOut2)
 
 fileListToParse <- list(fileList1, fileList2)
-fileListToParseFlat <- flatten(fileListToParse)
+fileListToParseFlat <- purrr::flatten(fileListToParse)
 
 simOutResult <- SimOut(poll       = NA,
                        outdir     = "~/shiny-concurrency/shiny-server-pro/4_json/output_10_mysql_001usr_4thr_100-090-40_2min_net/proxy",
